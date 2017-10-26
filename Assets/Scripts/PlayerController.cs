@@ -9,12 +9,13 @@ public class PlayerController : MonoBehaviour {
 	public Sprite[] spriteArray;
 	private SpriteRenderer spriteRenderer;
 	private bool canWalk;
-   
+	private float timeLeft;
     private Rigidbody2D rb2d;
 
 	void Start()
 	{
 		canWalk = true;
+		timeLeft = 3.0f;
 		rb2d = GetComponent<Rigidbody2D> ();
 		spriteRenderer = GetComponent<SpriteRenderer> ();
 		spriteRenderer.sprite = spriteArray[0];
@@ -30,17 +31,26 @@ public class PlayerController : MonoBehaviour {
 			rb2d.AddForce (movement * speed);
 			TransformNinja ();
 		}
+
+		if (!canWalk)
+		{
+			timeLeft -= Time.deltaTime;
+
+			if (timeLeft < 0)
+			{
+				spriteRenderer.sprite = spriteArray[0];
+				timeLeft = 3.0f;
+				canWalk = true;
+			}
+		}
 	}
 
 	void TransformNinja()
 	{
-		if (Input.anyKey)
+		if (Input.GetButton ("A"))
 		{
-			if (Input.GetButton ("Submit"))
-			{
-				spriteRenderer.sprite = spriteArray[1];
-				canWalk = false;
-			}
+			spriteRenderer.sprite = spriteArray[1];
+			canWalk = false;
 		}
 	}
 }
