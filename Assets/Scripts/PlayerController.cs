@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour {
 			if (timeLeft < 0)
 			{
 				spriteRenderer.sprite = spriteArray[0];
-				timeLeft = 3.0f;
+				timeLeft = 5.0f;
 				canWalk = true;
 			}
 		}
@@ -50,6 +50,18 @@ public class PlayerController : MonoBehaviour {
 		if (Input.GetButton ("A"))
 		{
 			spriteRenderer.sprite = spriteArray[1];
+			canWalk = false;
+		}
+
+		else if (Input.GetButton ("D"))
+		{
+			spriteRenderer.sprite = spriteArray[2];
+			canWalk = false;
+		}
+
+		else if (Input.GetButton ("W"))
+		{
+			spriteRenderer.sprite = spriteArray[3];
 			canWalk = false;
 		}
 	}
