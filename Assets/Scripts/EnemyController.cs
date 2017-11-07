@@ -7,7 +7,8 @@ using UnityEngine.UI;
 public class EnemyController : MonoBehaviour {
 	
 	public Text gameOver;
-	public float viewField;
+	public float viewDistance;
+	public float viewAngle;
 	private GameObject player;
 	
 	void Start(){
@@ -21,9 +22,9 @@ public class EnemyController : MonoBehaviour {
 	}
 	
 	void checkSight(){
-		if (Vector2.Angle(-(transform.up), player.transform.position-transform.position) < 22.5){
+		if (Vector2.Angle(-(transform.up), player.transform.position-transform.position) < viewAngle){
 			double distance = Math.Pow(player.transform.position.x - transform.position.x, 2.0)+Math.Pow(player.transform.position.y - transform.position.y,2.0);
-			if(distance<viewField){
+			if(distance<viewDistance){
 				gameOver.text = "Game Over";
 				player.GetComponent<PlayerController>().stopPlayer();
 			}
