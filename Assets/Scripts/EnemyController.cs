@@ -19,8 +19,10 @@ public class EnemyController : MonoBehaviour {
 	}
 	
 	void checkSight(){
-		if (Vector2.Angle(-(transform.up), player.transform.position-transform.position) < 2.5)
+		if (Vector2.Angle(-(transform.up), player.transform.position-transform.position) < 2.5){
 			gameOver.text = "Game Over";
+			player.GetComponent<PlayerController>().stopPlayer();
+		}
 		
 	}
 	

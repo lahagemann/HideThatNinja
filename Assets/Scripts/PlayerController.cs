@@ -65,4 +65,8 @@ public class PlayerController : MonoBehaviour {
 			canWalk = false;
 		}
 	}
+	
+	public void stopPlayer(){
+		canWalk=false;
+	}
 }
