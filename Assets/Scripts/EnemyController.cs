@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -19,9 +20,12 @@ public class EnemyController : MonoBehaviour {
 	}
 	
 	void checkSight(){
-		if (Vector2.Angle(-(transform.up), player.transform.position-transform.position) < 2.5){
-			gameOver.text = "Game Over";
-			player.GetComponent<PlayerController>().stopPlayer();
+		if (Vector2.Angle(-(transform.up), player.transform.position-transform.position) < 22.5){
+			double distance = Math.Pow(player.transform.position.x - transform.position.x, 2.0)+Math.Pow(player.transform.position.y - transform.position.y,2.0);
+			if(distance<100){
+				gameOver.text = "Game Over";
+				player.GetComponent<PlayerController>().stopPlayer();
+			}
 		}
 		
 	}
