@@ -57,6 +57,9 @@ public class PlayerController : MonoBehaviour {
 			canWalk = false;
 			transformed = true;
 			gameObject.GetComponent<Collider2D>().enabled = false;
+
+			Vector3 scale = new Vector3 (0.2f, 0.2f, 1f);
+			transform.localScale = scale;
 		}
 
 		else if (Input.GetButton ("D"))
@@ -65,6 +68,9 @@ public class PlayerController : MonoBehaviour {
 			canWalk = false;
 			transformed = true;
 			gameObject.GetComponent<Collider2D>().enabled = false;
+
+			Vector3 scale = new Vector3 (0.4f, 0.4f, 1f);
+			transform.localScale = scale;
 		}
 
 		else if (Input.GetButton ("W"))
@@ -73,6 +79,9 @@ public class PlayerController : MonoBehaviour {
 			canWalk = false;
 			transformed = true;
 			gameObject.GetComponent<Collider2D>().enabled = false;
+
+			Vector3 scale = new Vector3 (0.4f, 0.4f, 1f);
+			transform.localScale = scale;
 		}
 	}
 
