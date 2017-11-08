@@ -15,7 +15,11 @@ public class EnemyController : MonoBehaviour {
 	private int currentWaypoint = 0;
 	private float lastWaypointSwitchTime;
 	private bool reversePath = false;
+	private bool moving = true;
 	public float speed = 1.0f;
+
+	private Vector3 startPosition;
+	private Vector3 endPosition;
 
 
 	void Start(){
@@ -26,10 +30,6 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	void FixedUpdate(){
-		checkSight();
-
-		Vector3 startPosition;
-		Vector3 endPosition;
 
 		if (!reversePath) {
 			startPosition = waypoints [currentWaypoint].transform.position;
@@ -42,10 +42,13 @@ public class EnemyController : MonoBehaviour {
 			endPosition.z = gameObject.transform.position.z;
 		}
 
+		checkSight();
+
 		float pathLength = Vector2.Distance (startPosition, endPosition);
 		float totalTimeForPath = pathLength / speed;
 		float currentTimeOnPath = Time.time - lastWaypointSwitchTime;
-		gameObject.transform.position = Vector2.Lerp (startPosition, endPosition, currentTimeOnPath / totalTimeForPath);
+		if (moving)
+			gameObject.transform.position = Vector2.Lerp (startPosition, endPosition, currentTimeOnPath / totalTimeForPath);
 
 		if (gameObject.transform.position.Equals(endPosition)) {
 			if (!reversePath) {
@@ -59,7 +62,7 @@ public class EnemyController : MonoBehaviour {
 			else {
 				if(currentWaypoint - 1 >= 0) {
 					currentWaypoint--;
-					if (currentWaypoint == 0) 
+					if (currentWaypoint == 0)
 						reversePath = false;
 					lastWaypointSwitchTime = Time.time;
 				}
@@ -68,11 +71,16 @@ public class EnemyController : MonoBehaviour {
 	}
 
 	void checkSight(){
-		if (Vector2.Angle(-(transform.up), player.transform.position-transform.position) < viewAngle){
-			double distance = Math.Pow(player.transform.position.x - transform.position.x, 2.0)+Math.Pow(player.transform.position.y - transform.position.y,2.0);
-			if(distance<viewDistance){
+		Vector3 movementDirection = (endPosition - startPosition).normalized;
+
+		if (Vector2.Angle(movementDirection, player.transform.position - transform.position) < viewAngle){
+			double distance =
+				Math.Pow(player.transform.position.x - transform.position.x, 2.0) +
+				Math.Pow(player.transform.position.y - transform.position.y, 2.0);
+			if(distance < viewDistance){
 				gameOver.text = "Game Over";
 				player.GetComponent<PlayerController>().stopPlayer();
+				moving = false;
 			}
 		}
 
