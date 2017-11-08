@@ -78,9 +78,11 @@ public class EnemyController : MonoBehaviour {
 				Math.Pow(player.transform.position.x - transform.position.x, 2.0) +
 				Math.Pow(player.transform.position.y - transform.position.y, 2.0);
 			if(distance < viewDistance){
-				gameOver.text = "Game Over";
-				player.GetComponent<PlayerController>().stopPlayer();
-				moving = false;
+				if(!player.GetComponent<PlayerController>().transformed) {
+					gameOver.text = "Game Over";
+					player.GetComponent<PlayerController>().stopPlayer();
+					moving = false;
+				}
 			}
 		}
 
