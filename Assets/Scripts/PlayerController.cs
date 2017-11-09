@@ -92,8 +92,9 @@ public class PlayerController : MonoBehaviour {
 	}
 	
 	void OnCollisionEnter2D(Collision2D coll){
-		if(coll.gameObject.tag == "Enemy")
-			gameManager = GameObject.Find("GameManager");
-			gameManager.GetComponent<GameManager>().GameOver();
+		if (coll.gameObject.tag == "Enemy") {
+			gameManager = GameObject.Find ("GameManager");
+			gameManager.GetComponent<GameManager> ().GameOver ();
+		}
 	}
 }
