@@ -6,10 +6,11 @@ using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour {
 
-	public Text gameOver;
+	
 	public float viewDistance;
 	public float viewAngle;
 	private GameObject player;
+	private GameObject gameManager;
 
 	public GameObject[] waypoints;
 	private int currentWaypoint = 0;
@@ -23,7 +24,6 @@ public class EnemyController : MonoBehaviour {
 
 
 	void Start(){
-		gameOver.text = "";
 		player = GameObject.Find("PlayerNinja");
 		lastWaypointSwitchTime = Time.time;
 
@@ -79,12 +79,15 @@ public class EnemyController : MonoBehaviour {
 				Math.Pow(player.transform.position.y - transform.position.y, 2.0);
 			if(distance < viewDistance){
 				if(!player.GetComponent<PlayerController>().transformed) {
-					gameOver.text = "Game Over";
-					player.GetComponent<PlayerController>().stopPlayer();
-					moving = false;
-				}
+					gameManager = GameObject.Find("GameManager");
+					gameManager.GetComponent<GameManager>().GameOver();
+				} 
 			}
 		}
 
+	}
+	
+	public void StopEnemy(){
+		moving=false;
 	}
 }
