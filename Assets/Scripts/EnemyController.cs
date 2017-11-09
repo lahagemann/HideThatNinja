@@ -97,15 +97,15 @@ public class EnemyController : MonoBehaviour {
 	void checkSight(){
 		Vector3 direction = (endPosition - startPosition).normalized;
 		Vector2 vec = transform.position;
-		vec.x = vec.x + 2;
-		vec.y = vec.y + 2;
+		int layer_mask = LayerMask.GetMask("Player", "Scene");
 		
-		RaycastHit2D hit = Physics2D.Raycast(vec, direction);
-		if(hit != null)
+		RaycastHit2D hit = Physics2D.Raycast(vec, direction, viewDistance, layer_mask);
+		if(hit.collider != null){
 			Debug.Log(hit.collider.tag);
 			if(hit.collider.tag == "Player"){
 			gameManager = GameObject.Find("GameManager");
 			gameManager.GetComponent<GameManager>().GameOver();
+			}
 			
 		}
 			
