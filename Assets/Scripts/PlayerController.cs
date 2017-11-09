@@ -11,7 +11,8 @@ public class PlayerController : MonoBehaviour {
 	private SpriteRenderer spriteRenderer;
 	private bool canWalk;
 	private float timeLeft;
-  private Rigidbody2D rb2d;
+	private Rigidbody2D rb2d;
+	private GameObject gameManager;
 
 	void Start()
 	{
@@ -88,5 +89,11 @@ public class PlayerController : MonoBehaviour {
 	public void stopPlayer(){
 		if(canWalk != false)
 			canWalk=false;
+	}
+	
+	void OnCollisionEnter2D(Collision2D coll){
+		if(coll.gameObject.tag == "Enemy")
+			gameManager = GameObject.Find("GameManager");
+			gameManager.GetComponent<GameManager>().GameOver();
 	}
 }
