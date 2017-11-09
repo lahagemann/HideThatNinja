@@ -8,7 +8,7 @@ public class EnemyController : MonoBehaviour {
 
 	
 	public float viewDistance;
-	public float viewAngle;
+	//public float viewAngle;
 	private GameObject player;
 	private GameObject gameManager;
 
@@ -77,7 +77,7 @@ public class EnemyController : MonoBehaviour {
 
 	}
 
-	void checkSight(){
+	/**void checkSight(){
 		Vector3 movementDirection = (endPosition - startPosition).normalized;
 
 		if (Vector2.Angle(movementDirection, player.transform.position - transform.position) < viewAngle){
@@ -92,6 +92,20 @@ public class EnemyController : MonoBehaviour {
 			}
 		}
 
+	}**/
+	
+	void checkSight(){
+		Vector3 direction = (endPosition - startPosition).normalized;
+		
+		RaycastHit2D hit = Physics2D.Raycast(transform.position, direction);
+		Debug.Log(hit.collider.tag); 
+		
+		if(hit.collider.tag == "PlayerNinja"){
+			gameManager = GameObject.Find("GameManager");
+			gameManager.GetComponent<GameManager>().GameOver();
+			
+		}
+			
 	}
 	
 	public void StopEnemy(){
