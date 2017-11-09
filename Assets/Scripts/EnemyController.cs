@@ -19,6 +19,8 @@ public class EnemyController : MonoBehaviour {
 	private bool moving = true;
 	public float speed = 1.0f;
 
+	private float enemyPause = 2.0f;
+
 	private Vector3 startPosition;
 	private Vector3 endPosition;
 
@@ -51,23 +53,28 @@ public class EnemyController : MonoBehaviour {
 			gameObject.transform.position = Vector2.Lerp (startPosition, endPosition, currentTimeOnPath / totalTimeForPath);
 
 		if (gameObject.transform.position.Equals(endPosition)) {
-			if (!reversePath) {
-				if (currentWaypoint < waypoints.Length - 1) {
-					currentWaypoint++;
-					if (currentWaypoint == waypoints.Length - 1)
-						reversePath = true;
-					lastWaypointSwitchTime = Time.time;
+			if (enemyPause < 0) {
+				enemyPause = 2.0f;
+				if (!reversePath) {
+					if (currentWaypoint < waypoints.Length - 1) {
+						currentWaypoint++;
+						if (currentWaypoint == waypoints.Length - 1)
+							reversePath = true;
+						lastWaypointSwitchTime = Time.time;
+					}
+				} else {
+					if (currentWaypoint - 1 >= 0) {
+						currentWaypoint--;
+						if (currentWaypoint == 0)
+							reversePath = false;
+						lastWaypointSwitchTime = Time.time;
+					}
 				}
-			}
-			else {
-				if(currentWaypoint - 1 >= 0) {
-					currentWaypoint--;
-					if (currentWaypoint == 0)
-						reversePath = false;
-					lastWaypointSwitchTime = Time.time;
-				}
+			} else {
+				enemyPause -= Time.deltaTime;
 			}
 		}
+
 	}
 
 	void checkSight(){
