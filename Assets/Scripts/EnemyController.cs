@@ -6,9 +6,9 @@ using UnityEngine.UI;
 
 public class EnemyController : MonoBehaviour {
 
-	
+
 	public float viewDistance;
-	//public float viewAngle;
+	public float viewAngle;
 	private GameObject player;
 	private GameObject gameManager;
 
@@ -88,29 +88,46 @@ public class EnemyController : MonoBehaviour {
 				if(!player.GetComponent<PlayerController>().transformed) {
 					gameManager = GameObject.Find("GameManager");
 					gameManager.GetComponent<GameManager>().GameOver();
-				} 
+				}
 			}
 		}
 
 	}**/
-	
-	void checkSight(){
+
+	/*void checkSight(){
 		Vector3 direction = (endPosition - startPosition).normalized;
 		Vector2 vec = transform.position;
 		int layer_mask = LayerMask.GetMask("Player", "Scene");
-		
+
 		RaycastHit2D hit = Physics2D.Raycast(vec, direction, viewDistance, layer_mask);
 		if(hit.collider != null){
 			Debug.Log(hit.collider.tag);
 			if(hit.collider.tag == "Player"){
-			gameManager = GameObject.Find("GameManager");
-			gameManager.GetComponent<GameManager>().GameOver();
+				gameManager = GameObject.Find("GameManager");
+				gameManager.GetComponent<GameManager>().GameOver();
 			}
-			
+
 		}
-			
+
+	}*/
+
+
+	void checkSight(){
+		Vector3 movementDirection = (endPosition - startPosition).normalized;
+		int layer_mask = LayerMask.GetMask("Player", "Scene");
+
+		if (Vector2.Angle(movementDirection, player.transform.position - transform.position) < viewAngle) {
+			Vector3 playerDirection = player.transform.position - transform.position;
+			RaycastHit2D hit = Physics2D.Raycast(transform.position, playerDirection, viewDistance, layer_mask);
+			if(hit.collider != null) {
+				if(hit.collider.tag == "Player") {
+					gameManager = GameObject.Find("GameManager");
+					gameManager.GetComponent<GameManager>().GameOver();
+				}
+			}
+		}
 	}
-	
+
 	public void StopEnemy(){
 		moving=false;
 	}
