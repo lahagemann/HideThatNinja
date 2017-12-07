@@ -13,6 +13,9 @@ public class EnemyController : MonoBehaviour {
 	private GameObject gameManager;
 
 	public GameObject[] waypoints;
+	public Sprite[] positionSprite;
+	private SpriteRenderer spriteRenderer;
+
 	private int currentWaypoint = 0;
 	private float lastWaypointSwitchTime;
 	private bool reversePath = false;
@@ -28,6 +31,8 @@ public class EnemyController : MonoBehaviour {
 	void Start(){
 		player = GameObject.Find("PlayerNinja");
 		lastWaypointSwitchTime = Time.time;
+		spriteRenderer = GetComponent<SpriteRenderer> ();
+		spriteRenderer.sprite = positionSprite[0];
 
 	}
 
@@ -49,8 +54,15 @@ public class EnemyController : MonoBehaviour {
 		float pathLength = Vector2.Distance (startPosition, endPosition);
 		float totalTimeForPath = pathLength / speed;
 		float currentTimeOnPath = Time.time - lastWaypointSwitchTime;
-		if (moving)
+		if (moving) {
 			gameObject.transform.position = Vector2.Lerp (startPosition, endPosition, currentTimeOnPath / totalTimeForPath);
+			Vector2 movementDirection = endPosition - startPosition;
+			if(movementDirection.y > 0)
+				spriteRenderer.sprite = positionSprite[1];
+			else
+				spriteRenderer.sprite = positionSprite[0];
+				
+		}
 
 		if (gameObject.transform.position.Equals(endPosition)) {
 			if (enemyPause < 0) {

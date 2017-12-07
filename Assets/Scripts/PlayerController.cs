@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour {
 	public float speed;
 	public bool transformed;
 	public Sprite[] spriteArray;
+	public Sprite[] positionSprite;
 	private float playerScaleX;
 	private float playerScaleY;
 	private SpriteRenderer spriteRenderer;
@@ -36,6 +37,10 @@ public class PlayerController : MonoBehaviour {
 			float moveHorizontal = Input.GetAxis ("Horizontal");
 			float moveVertical = Input.GetAxis ("Vertical");
 			Vector2 movement = new Vector2 (moveHorizontal, moveVertical);
+			if(movement.y > 0)
+				spriteRenderer.sprite = positionSprite[1];
+			else
+				spriteRenderer.sprite = positionSprite[0];
 			rb2d.AddForce (movement * speed);
 			TransformNinja ();
 		}
